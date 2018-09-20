@@ -13,7 +13,13 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
       transition[edges[i,2]] = transition[edges[i,2]] +1
     }
     
-    
+    moveMatrix = matrix(0, nrow = 40, ncol = 40)
+    for (i in 1:40) {
+      for (j in (i+1):40) {
+        moveMatrix(i,j)=shortestPath(i,j,edges)
+        moveMAtrix(j,i)=moveMatrix(i,j)
+      }
+    }
   }
   
   # should only happen first time moveRanger is called for each simulation
@@ -32,33 +38,33 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
   else if(!is.na(positions[2]) && positions[2] < 0){
     probability[-1*positions[2]] = 1
   }
-else{
-  for (i in 1:length(edges[,1])) {
-    probability[edges[i,1]] = probability[edges[i,1]] + moveInfo$mem$probNodes[edges[i,2]]*(1/transition[edges[i,2]])
-    probability[edges[i,2]] = probability[edges[i,2]] + moveInfo$mem$probNodes[edges[i,1]]*(1/transition[edges[i,1]])
-  }
-  
-  for (i in 1:length(probability)) {
-    probReadings = dnorm(readings[1],probs$salinity[i,1],probs$salinity[i,2]) +
-                   dnorm(readings[2],probs$phosphate[i,1],probs$phosphate[i,2]) +
-                   dnorm(readings[3],probs$nitrogen[i,1],probs$nitrogen[i,2])
+  else{
+    for (i in 1:length(edges[,1])) {
+      probability[edges[i,1]] = probability[edges[i,1]] + moveInfo$mem$probNodes[edges[i,2]]*(1/transition[edges[i,2]])
+      probability[edges[i,2]] = probability[edges[i,2]] + moveInfo$mem$probNodes[edges[i,1]]*(1/transition[edges[i,1]])
+    }
     
-    probability[i] =(1/3)*probReadings*(probability[i] + moveInfo$mem$probNodes[i]*(1/transition[i]))
+    for (i in 1:length(probability)) {
+      probReadings = dnorm(readings[1],probs$salinity[i,1],probs$salinity[i,2]) +
+        dnorm(readings[2],probs$phosphate[i,1],probs$phosphate[i,2]) +
+        dnorm(readings[3],probs$nitrogen[i,1],probs$nitrogen[i,2])
+      
+      probability[i] =(1/3)*probReadings*(probability[i] + moveInfo$mem$probNodes[i]*(1/transition[i]))
+    }
+    
+    probability = probability/sum(probability)
+    
   }
   
-  probability = probability/sum(probability)
+  moveInfo$mem$probNodes = probability
   
-}
+  show("probabilities")
+  show(max(probability))
+  index = match(max(probability),probability)
+  show("index")
+  show(index)
   
-moveInfo$mem$probNodes = probability
-
-show("probabilities")
-show(max(probability))
-index = match(max(probability),probability)
-show("index")
-show(index)
-
-readline(prompt="Press [enter] to continue")
-moveInfo$moves = c(0,0)
-return(moveInfo)
+  readline(prompt="Press [enter] to continue")
+  moveInfo$moves = c(0,0)
+  return(moveInfo)
 }

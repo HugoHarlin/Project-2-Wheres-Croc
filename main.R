@@ -3,6 +3,7 @@ rm(list = ls())
 setwd("~/Teknisk Fysik/AI/Project-2-Wheres-Croc")
 library(WheresCroc)
 source("moveRanger.R")
+source("shortestPath.R")
 
 runWheresCroc(makeMoves = moveRanger, showCroc = T)
 #testWC(makeMoves = manualWC)
