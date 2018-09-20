@@ -1,5 +1,5 @@
 rm(list = ls())
-#setwd("~/GitHub/Project-1-Delivery-Man/")
+#setwd("~/GitHub/Project-2-Wheres-Croc/")
 setwd("~/Teknisk Fysik/AI/Project-2-Wheres-Croc")
 library(WheresCroc)
 source("moveRanger.R")
