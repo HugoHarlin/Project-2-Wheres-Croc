@@ -1,7 +1,5 @@
 moveRanger = function (moveInfo, readings, positions, edges, probs){
   # calculating the probability of the crocs position based on readings
-  show("moveInfo")
-  show(moveInfo)
   
   readline(prompt="Press [enter] to continue")
   
@@ -17,6 +15,8 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
   }
   
   # should only happen first time moveRanger is called for each simulation
+  show("moveInfo$moves")
+  show(moveInfo$moves)
   if(is.null(moveInfo$moves)){
     # P(S0 = i) for i = 1...40
     moveInfo$mem$probNodes = rep(1/40,40)
@@ -37,12 +37,15 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
 probability[i] =(1/3)*probReadings*(probability[i] + moveInfo$mem$probNodes[i]*(1/transition[i]))
   }
   
-  sumPRob = sum(probability)
-  probability = probability/sum
+  sumProb = sum(probability)
+  probability = probability/sumProb
   moveInfo$mem$probNodes = probability
   
-  show("probabolities")
-  show(probability)
+  show("probabilities")
+  show(max(probability))
+  index = match(max(probability),probability)
+  show("index")
+  show(index)
   
   
   moveInfo$moves = c(0,0)
