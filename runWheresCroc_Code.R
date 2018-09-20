@@ -1,4 +1,4 @@
-WhereCroc_Code = function (makeMoves, doPlot = T, showCroc = F, pause = 1, verbose = T, 
+runWheresCroc_Code = function (makeMoves, doPlot = T, showCroc = F, pause = 1, verbose = T, 
           returnMem = F, mem = NA) 
 {
   positions = sample(1:40, 4)

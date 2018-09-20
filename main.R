@@ -6,7 +6,3 @@ source("moveRanger.R")
 
 runWheresCroc(makeMoves = moveRanger, showCroc = T)
 #testWC(makeMoves = manualWC)
-
-
-
-
