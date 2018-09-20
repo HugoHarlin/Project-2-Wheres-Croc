@@ -21,9 +21,8 @@ appendSorted = function (newNode,frontier){
       
     }
     
-    
     for (i in 1:length) {
-      if(frontier[[i]]$cost + frontier[[i]]$heur >= totcost)
+      if(frontier[[i]]$cost  >= newNode$cost)
       {
         frontier = append(frontier,list(newNode), i-1);
         return(frontier)

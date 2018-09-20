@@ -13,18 +13,39 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
       transition[edges[i,2]] = transition[edges[i,2]] +1
     }
     
-    moveMatrix = matrix(0, nrow = 40, ncol = 40)
+    moveMatrix = array(0,c(40,40,2))
     for (i in 1:40) {
-      for (j in (i+1):40) {
-        moveMatrix(i,j)=shortestPath(i,j,edges)
-        moveMAtrix(j,i)=moveMatrix(i,j)
+      
+      if(i+1 < 41){
+        for (j in (i+1):40) {
+          #show("i")
+          #show(i)
+          #show("j")
+          #show(j)
+          shortPath = shortestPath(i,j,edges)
+          #show("shortPath")
+          #show(shortPath)
+          
+          if(length(shortPath) >2){
+            moveMatrix[i,j,1] = shortPath[2]
+            moveMatrix[i,j,2] = shortPath[3]
+            moveMatrix[j,i,1] = shortPath[length(shortPath)-1]
+            moveMatrix[j,i,2] = shortPath[length(shortPath)-2]
+          }else if(length(shortPath) == 2){
+            moveMatrix[i,j,1] = shortPath[2]
+            moveMatrix[j,i,1] = shortPath[length(shortPath)-1]
+          }
+          #show("moveMatrix[i,j,]")
+          #show(moveMatrix[i,j,])
+          #show("moveMatrix[j,i,]")
+          #show(moveMatrix[j,i,])
+          #readline(prompt="Press [enter] to continue")
+        }
       }
     }
   }
   
   # should only happen first time moveRanger is called for each simulation
-  show("moveInfo$moves")
-  show(moveInfo$moves)
   if(is.null(moveInfo$moves)){
     # P(S0 = i) for i = 1...40
     moveInfo$mem$probNodes = rep(1/40,40)
@@ -58,13 +79,17 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
   
   moveInfo$mem$probNodes = probability
   
-  show("probabilities")
-  show(max(probability))
+  #show("probabilities")
+  #show(max(probability))
   index = match(max(probability),probability)
-  show("index")
-  show(index)
+  #show("index")
+  #show(index)
+  #show("positions[3]")
+  #show(positions[3])
   
-  readline(prompt="Press [enter] to continue")
-  moveInfo$moves = c(0,0)
+  moveInfo$moves = moveMatrix[positions[3],index,]
+  #show(" moveInfo$moves")
+  #show(moveInfo$moves)
+  #readline(prompt="Press [enter] to continue")
   return(moveInfo)
 }
