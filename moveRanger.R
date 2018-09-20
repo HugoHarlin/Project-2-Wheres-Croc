@@ -33,12 +33,11 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
     probReadings = dnorm(readings[1],probs$salinity[i,1],probs$salinity[i,2]) +
                    dnorm(readings[2],probs$phosphate[i,1],probs$phosphate[i,2]) +
                    dnorm(readings[3],probs$nitrogen[i,1],probs$nitrogen[i,2])
-
-probability[i] =(1/3)*probReadings*(probability[i] + moveInfo$mem$probNodes[i]*(1/transition[i]))
+    
+    probability[i] =(1/3)*probReadings*(probability[i] + moveInfo$mem$probNodes[i]*(1/transition[i]))
   }
   
-  sumProb = sum(probability)
-  probability = probability/sumProb
+  probability = probability/sum(probability)
   moveInfo$mem$probNodes = probability
   
   show("probabilities")
