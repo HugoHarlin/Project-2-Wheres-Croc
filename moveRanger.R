@@ -43,6 +43,11 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
         }
       }
     }
+     moveInfo$mem$transfer = transition
+     moveInfo$mem$moveMatrix = moveMatrix
+  }else{
+    transition = moveInfo$mem$transfer
+    moveMatrix = moveInfo$mem$moveMatrix
   }
   
   # should only happen first time moveRanger is called for each simulation
