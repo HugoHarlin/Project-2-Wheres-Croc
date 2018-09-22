@@ -2,7 +2,7 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
   # calculating the probability of the crocs position based on readings
   
   
-  
+  # the following only happens for the very first run of the simulation
   if(moveInfo$mem$status == 0){
     
     # transition vector
@@ -58,13 +58,20 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
   
   probability = rep(0,40)
   
+  # checks if the first hicker is dead
   if(!is.na(positions[1]) && positions[1] < 0){
     probability[-1*positions[1]] = 1
   }
+  # checks if the second hicker is dead
   else if(!is.na(positions[2]) && positions[2] < 0){
     probability[-1*positions[2]] = 1
   }
   else{
+    # If both hikers are alive the crockodile cant be in those waterholes
+    moveInfo$mem$probNodes[positions[1]] = 0;
+    moveInfo$mem$probNodes[positions[2]] = 0;
+    
+    #markov chain.
     for (i in 1:length(edges[,1])) {
       probability[edges[i,1]] = probability[edges[i,1]] + moveInfo$mem$probNodes[edges[i,2]]*(1/transition[edges[i,2]])
       probability[edges[i,2]] = probability[edges[i,2]] + moveInfo$mem$probNodes[edges[i,1]]*(1/transition[edges[i,1]])
@@ -84,15 +91,20 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
   
   moveInfo$mem$probNodes = probability
   
+  #show("transitions")
+  #show(transition)
   #show("probabilities")
-  #show(max(probability))
-  index = match(max(probability),probability)
-  #show("index")
+  probSorted = sort(probability, decreasing = T)
+  #show(probSorted)
+  index = c(0,0,0,0,0)
+  for (i in 1:5) {
+    index[i] = match(probSorted[i],probability)
+  }
+  #show("top five nodes:")
   #show(index)
   #show("positions[3]")
   #show(positions[3])
-  
-  moveInfo$moves = moveMatrix[positions[3],index,]
+  moveInfo$moves = moveMatrix[positions[3],index[1],]
   #show(" moveInfo$moves")
   #show(moveInfo$moves)
   #readline(prompt="Press [enter] to continue")
