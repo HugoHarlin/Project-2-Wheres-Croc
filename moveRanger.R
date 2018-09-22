@@ -71,6 +71,10 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
     moveInfo$mem$probNodes[positions[1]] = 0;
     moveInfo$mem$probNodes[positions[2]] = 0;
     
+    # usmoothing of probabilites test
+    #moveInfo$mem$probNodes = moveInfo$mem$probNodes + 0.01
+    #moveInfo$mem$probNodes = moveInfo$mem$probNodes/sum(moveInfo$mem$probNodes)
+    
     #markov chain.
     for (i in 1:length(edges[,1])) {
       probability[edges[i,1]] = probability[edges[i,1]] + moveInfo$mem$probNodes[edges[i,2]]*(1/transition[edges[i,2]])
@@ -106,7 +110,7 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
   #show(positions[3])
   moveInfo$moves = moveMatrix[positions[3],index[1],]
   
-  #if the ranger checks a whole and the krockodile isn't there, the probability is set to 0
+  #if the ranger checks a hole and the krockodile isn't there, the probability is set to 0
   if(  moveInfo$moves[1] == 0){
     moveInfo$mem$probNodes[positions[3]] = 0;
   }
