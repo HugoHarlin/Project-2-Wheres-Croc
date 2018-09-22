@@ -43,8 +43,8 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
         }
       }
     }
-     moveInfo$mem$transfer = transition
-     moveInfo$mem$moveMatrix = moveMatrix
+    moveInfo$mem$transfer = transition
+    moveInfo$mem$moveMatrix = moveMatrix
   }else{
     transition = moveInfo$mem$transfer
     moveMatrix = moveInfo$mem$moveMatrix
@@ -105,6 +105,15 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
   #show("positions[3]")
   #show(positions[3])
   moveInfo$moves = moveMatrix[positions[3],index[1],]
+  
+  #if the ranger checks a whole and the krockodile isn't there, the probability is set to 0
+  if(  moveInfo$moves[1] == 0){
+    moveInfo$mem$probNodes[positions[3]] = 0;
+  }
+  if(moveInfo$moves[2] == 0){
+    moveInfo$mem$probNodes[moveInfo$moves[1]] = 0;
+  }
+  
   #show(" moveInfo$moves")
   #show(moveInfo$moves)
   #readline(prompt="Press [enter] to continue")

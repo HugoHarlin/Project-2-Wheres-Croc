@@ -13,4 +13,3 @@ testWC(myFunction =  moveRanger)
 
 
 
-
