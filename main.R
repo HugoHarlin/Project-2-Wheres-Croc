@@ -8,7 +8,8 @@ source("appendSorted.R")
 
 #runWheresCroc(makeMoves = moveRanger, showCroc = T)
 
-testWC(myFunction =  moveRanger)
+testWC(myFunction =  myFunction)
+
 
 
 

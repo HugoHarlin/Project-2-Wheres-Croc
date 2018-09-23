@@ -1,4 +1,4 @@
-moveRanger = function (moveInfo, readings, positions, edges, probs){
+myFunction = function (moveInfo, readings, positions, edges, probs){
   # calculating the probability of the crocs position based on readings
   
   
@@ -77,8 +77,8 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
     moveInfo$mem$probNodes[positions[1]] = 0;
     moveInfo$mem$probNodes[positions[2]] = 0;
     
-    # usmoothing of probabilites test
-    #moveInfo$mem$probNodes = moveInfo$mem$probNodes + 0.01
+    # smoothing of probabilites test
+    #moveInfo$mem$probNodes = moveInfo$mem$probNodes + 0.05
     #moveInfo$mem$probNodes = moveInfo$mem$probNodes/sum(moveInfo$mem$probNodes)
     
     #markov chain.
