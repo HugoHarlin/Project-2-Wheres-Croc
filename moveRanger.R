@@ -53,7 +53,13 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
   # should only happen first time moveRanger is called for each simulation
   if(is.null(moveInfo$moves)){
     # P(S0 = i) for i = 1...40
-    moveInfo$mem$probNodes = rep(1/40,40)
+    moveInfo$mem$probNodes = rep(0,40)
+    # we suspect that the crodocile is never placed on the same node as a hicker at T=0
+    for(i in 1:40){
+      if(positions[1] != i & positions[2] != i){
+    moveInfo$mem$probNodes[i] = 1/38
+      }
+    }
   }
   
   probability = rep(0,40)
@@ -89,19 +95,19 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
       probability[i] =(1/3)*probReadings*(probability[i] + moveInfo$mem$probNodes[i]*(1/transition[i]))
     }
     
+    #normalizing
     probability = probability/sum(probability)
     
   }
   
   moveInfo$mem$probNodes = probability
   
-  #show("transitions")
-  #show(transition)
-  #show("probabilities")
+  
   probSorted = sort(probability, decreasing = T)
-  #show(probSorted)
-  index = c(0,0,0,0,0)
-  for (i in 1:5) {
+  #show("probabilities")
+  #show(probSorted[1:5])
+  index = rep(0,40)
+  for (i in 1:40) {
     index[i] = match(probSorted[i],probability)
   }
   #show("top five nodes:")
@@ -110,13 +116,24 @@ moveRanger = function (moveInfo, readings, positions, edges, probs){
   #show(positions[3])
   moveInfo$moves = moveMatrix[positions[3],index[1],]
   
-  #if the ranger checks a hole and the krockodile isn't there, the probability is set to 0
+  #if the next most probable waterhole is within one move, 
+  #the ranger goes there and searches.
+  for(i in 2:40){
+    if(  moveInfo$moves[2] != 0 & (probSorted[1]-probSorted[i])/(probSorted[1]+probSorted[i])< 0.30 & moveMatrix[positions[3],index[i],2] == 0){
+      moveInfo$moves = moveMatrix[positions[3],index[i],]
+    }
+  }
+  
+  
+  #if the ranger checks a hole and the crockodile isn't there, the probability is set to 0
   if(  moveInfo$moves[1] == 0){
     moveInfo$mem$probNodes[positions[3]] = 0;
   }
-  if(moveInfo$moves[2] == 0){
+  else if(moveInfo$moves[2] == 0){
     moveInfo$mem$probNodes[moveInfo$moves[1]] = 0;
   }
+  
+  
   
   #show(" moveInfo$moves")
   #show(moveInfo$moves)
