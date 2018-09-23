@@ -6,9 +6,9 @@ source("myFunction.R")
 source("shortestPath.R")
 source("appendSorted.R")
 
-#runWheresCroc(makeMoves = moveRanger, showCroc = T)
+runWheresCroc(makeMoves = myFunction, showCroc = T)
 
-testWC(myFunction =  myFunction)
+#testWC(myFunction =  myFunction)
 
 
 

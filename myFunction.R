@@ -104,16 +104,16 @@ myFunction = function (moveInfo, readings, positions, edges, probs){
   
   
   probSorted = sort(probability, decreasing = T)
-  #show("probabilities")
-  #show(probSorted[1:5])
+  show("probabilities")
+  show(probSorted[1:5])
   index = rep(0,40)
   for (i in 1:40) {
     index[i] = match(probSorted[i],probability)
   }
-  #show("top five nodes:")
-  #show(index)
-  #show("positions[3]")
-  #show(positions[3])
+  show("top five nodes:")
+  show(index)
+  show("positions[3]")
+  show(positions[3])
   moveInfo$moves = moveMatrix[positions[3],index[1],]
   
   #if the next most probable waterhole is within one move, 
