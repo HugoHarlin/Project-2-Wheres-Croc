@@ -111,7 +111,7 @@ myFunction = function (moveInfo, readings, positions, edges, probs){
     index[i] = match(probSorted[i],probability)
   }
   show("top five nodes:")
-  show(index)
+  show(index[1:5])
   show("positions[3]")
   show(positions[3])
   moveInfo$moves = moveMatrix[positions[3],index[1],]
