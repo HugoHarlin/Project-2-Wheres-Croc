@@ -1,0 +1,4 @@
+checklist debug:
+
+- transition matrix är korrekt
+- shortest path är korrekt (mycket sannolikt)

@@ -74,8 +74,8 @@ myFunction = function (moveInfo, readings, positions, edges, probs){
   }
   else{
     # If both hikers are alive the crockodile cant be in those waterholes
-    moveInfo$mem$probNodes[positions[1]] = 0;
-    moveInfo$mem$probNodes[positions[2]] = 0;
+    moveInfo$mem$probNodes[positions[1]] = 0
+    moveInfo$mem$probNodes[positions[2]] = 0
     
     # smoothing of probabilites test
     #moveInfo$mem$probNodes = moveInfo$mem$probNodes + 0.05
@@ -104,36 +104,44 @@ myFunction = function (moveInfo, readings, positions, edges, probs){
   
   
   probSorted = sort(probability, decreasing = T)
-  show("probabilities")
-  show(probSorted[1:5])
+  #show("probabilities")
+  #show(probSorted[1:5])
   index = rep(0,40)
   for (i in 1:40) {
     index[i] = match(probSorted[i],probability)
   }
-  show("top five nodes:")
-  show(index[1:5])
-  show("positions[3]")
-  show(positions[3])
+  #show("top five nodes:")
+  #show(index[1:5])
+  #show("positions[3]")
+  #show(positions[3])
   moveInfo$moves = moveMatrix[positions[3],index[1],]
   
   #if the next most probable waterhole is within one move, 
   #the ranger goes there and searches.
+  holeVar = 0
   for(i in 2:40){
     if(  moveInfo$moves[2] != 0 & (probSorted[1]-probSorted[i])/(probSorted[1]+probSorted[i])< 0.30 & moveMatrix[positions[3],index[i],2] == 0){
       moveInfo$moves = moveMatrix[positions[3],index[i],]
+      holeVar = i
+      break
     }
+    
   }
-  
+  #show("moveMatrix[positions[3],index[2],1]")
+  #show(moveMatrix[positions[3],index[2],1])
   
   #if the ranger checks a hole and the crockodile isn't there, the probability is set to 0
   if(  moveInfo$moves[1] == 0){
-    moveInfo$mem$probNodes[positions[3]] = 0;
+    moveInfo$mem$probNodes[positions[3]] = 0
+    if(holeVar != 0 ){
+    moveInfo$moves[2] = moveMatrix[positions[3],index[1],1]
+    }else{
+      moveMatrix[positions[3],index[2],1]
+    }
   }
   else if(moveInfo$moves[2] == 0){
     moveInfo$mem$probNodes[moveInfo$moves[1]] = 0;
   }
-  
-  
   
   #show(" moveInfo$moves")
   #show(moveInfo$moves)
