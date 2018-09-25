@@ -119,12 +119,11 @@ myFunction = function (moveInfo, readings, positions, edges, probs){
   #the ranger goes there and searches.
   holeVar = 0
   for(i in 2:40){
-    if(!is.na(moveInfo$moves[2]) &  moveInfo$moves[2] != 0 & probSorted[i] > 0 & (probSorted[1]-probSorted[i])/(probSorted[1]+probSorted[i])< 0.30 & moveMatrix[positions[3],index[i],2] == 0){
+    if(!is.na(moveInfo$moves[2]) &  moveInfo$moves[2] != 0 & probSorted[i] > 0 & (probSorted[1]-probSorted[i])/(probSorted[1]+probSorted[i])< 0.40 & moveMatrix[positions[3],index[i],2] == 0){
       moveInfo$moves = moveMatrix[positions[3],index[i],]
       holeVar = i
       break
     }
-    
   }
   
   #if the ranger checks a hole and the crockodile isn't there, the probability is set to 0

@@ -8,7 +8,16 @@ source("appendSorted.R")
 
 #runWheresCroc(makeMoves = myFunction, showCroc = T)
 
-testWC(myFunction =  myFunction)
+mean = 0
+num = 3
+for (i in 1:num) {
+  set.seed(i)
+  show("i")
+  show(i)
+  mean = mean + (1/num)*testWC(myFunction =  myFunction)
+}
+
+show(mean)
 
 
 

@@ -1,7 +1,7 @@
-testWC = function (myFunction, verbose = 0, returnVec = FALSE, seed = 21, 
+testWC2 = function (myFunction, verbose = 0, returnVec = FALSE, seed = 21, 
           timeLimit = 300) 
 {
-  set.seed(21)
+  #set.seed(21)
   seeds = sample(1:25000, 500)
   startTime = Sys.time()
   mem = NA
